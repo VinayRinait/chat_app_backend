@@ -33,7 +33,7 @@ router.post("/login", async (req, res) => {
     res.status(400).json(e.message);
   }
 });
-router.post("/logout", authenticateUser, async (req, res) => {
+router.post("/logout", async (req, res) => {
   try {
     const userId = req.user.name;
     const user = await User.findById(userId);
