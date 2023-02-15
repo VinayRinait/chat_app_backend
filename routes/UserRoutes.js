@@ -33,9 +33,10 @@ router.post("/login", async (req, res) => {
     res.status(400).json(e.message);
   }
 });
-router.post("/logout", async (req, res) => {
+router.post("/logout", authenticateUser, async (req, res) => {
   try {
-    const user = req.user; // assuming you have middleware to authenticate the user
+    const userId = req.user.name;
+    const user = await User.findById(userId);
     user.status = "offline";
     await user.save();
     res.status(200).json({ message: "Logged out successfully" });
@@ -43,5 +44,4 @@ router.post("/logout", async (req, res) => {
     res.status(500).json({ error: e.message });
   }
 });
-
 module.exports = router;
